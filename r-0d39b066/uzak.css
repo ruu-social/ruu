@@ -1,0 +1,233 @@
+/* =========================================================================
+   UZAKTAN RAPORLAR — telefon uyarlaması
+   -------------------------------------------------------------------------
+   Bu dosya kasanın stil dosyasının (rapor.css) ÜSTÜNE biner. Oradaki her şey
+   olduğu gibi kullanılıyor; buradaki kurallar yalnızca iki farkı kapatıyor:
+
+     1. Kasa arayüzü sabit bir pencere içinde durur ve sayfa gövdesi hiç
+        kaymaz (overflow: hidden). Telefonda sayfanın kendisi kayar.
+     2. Kasada metin seçimi kapalıdır (yanlışlıkla seçim POS'ta rahatsız
+        eder). Telefonda rakamı kopyalamak istenebilir.
+
+   Geri kalan her şey — renkler, kartlar, tablolar, kâr tablosu — kasadakiyle
+   aynı dosyadan geliyor. Bir raporun görünümü değişirse burada bir şey
+   yapmak gerekmez.
+   ========================================================================= */
+
+html,
+body.uzak-rapor {
+    height: auto;
+    min-height: 100%;
+    overflow: visible;
+}
+
+body.uzak-rapor {
+    user-select: text;
+    -webkit-text-size-adjust: 100%;
+    padding: 0 0 40px;
+}
+
+/* Gizleme her koşulda geçerli olmalı: aşağıdaki .uzak-giris kuralı
+   display: flex verdiği için tarayıcının kendi [hidden] kuralını eziyor ve
+   giriş ekranı, parola doğru girilse bile kapanmıyordu. */
+.uzak-rapor [hidden] {
+    display: none !important;
+}
+
+/* --------------------------------------------------------------- GİRİŞ */
+
+.uzak-giris {
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+.uzak-giris .kutu {
+    width: 100%;
+    max-width: 380px;
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 28px 24px;
+    text-align: center;
+    box-shadow: var(--shadow-lg);
+}
+
+.uzak-giris .logo {
+    font-size: 34px;
+    margin-bottom: 10px;
+}
+
+.uzak-giris h1 {
+    font-size: 22px;
+    margin-bottom: 6px;
+}
+
+.uzak-giris form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 18px 0 12px;
+}
+
+/* Parola elle yazılacak: harfler büyük, aralıklı ve tek tip genişlikte. */
+.uzak-giris input {
+    width: 100%;
+    min-height: 52px;
+    padding: 0 14px;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    background: var(--bg-panel-2);
+    color: var(--text);
+    font-family: "Cascadia Mono", Consolas, monospace;
+    font-size: 18px;
+    letter-spacing: 1px;
+    text-align: center;
+}
+
+.uzak-giris input:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.uzak-giris .btn {
+    width: 100%;
+    min-height: 52px;
+    justify-content: center;
+}
+
+.uzak-giris .note {
+    text-align: left;
+    margin-bottom: 12px;
+}
+
+/* -------------------------------------------------------------- BAŞLIK */
+
+.uzak-baslik {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 16px;
+    background: var(--bg-panel);
+    border-bottom: 1px solid var(--border);
+}
+
+.uzak-baslik .ad {
+    font-size: 17px;
+    font-weight: 700;
+}
+
+/* ------------------------------------------------------- DÖNEM SEÇİMİ */
+
+/* Kasadaki Raporlar ekranının düğme sırasıyla aynı görünüm (.tarih-secici
+   kuralları kasa stilinden geliyor); burada yalnızca yerleşim ayarlanıyor. */
+.uzak-donem {
+    padding: 12px 16px 0;
+}
+
+.uzak-donem .tarih-secici {
+    gap: 8px;
+}
+
+.uzak-donem #ay-panel,
+.uzak-donem #gun-panel {
+    margin-top: 10px;
+}
+
+.uzak-donem select {
+    width: 100%;
+    min-height: 50px;
+    padding: 0 14px;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    background: var(--bg-panel-2);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+/* Satışsız gece listede kalır ama seçilebilir olduğu belli olmasın. */
+.uzak-donem select option.bos {
+    color: var(--text-faint);
+}
+
+/* Seçili dönemin tarih aralığı — kasada başlığın altında duran satırın karşılığı. */
+.uzak-donem #aralik {
+    margin-top: 8px;
+}
+
+@media (max-width: 560px) {
+    /* Telefonda düğmeler iki-üç satıra sarıyor; dokunma alanı korunurken
+       yan boşluklar kısılıyor ki "Geçen ay" ortadan bölünmesin. */
+    .uzak-donem .tarih-secici {
+        gap: 6px;
+    }
+
+    .uzak-donem .tarih-secici button {
+        padding: 0 11px;
+        font-size: 13.5px;
+    }
+}
+
+/* --------------------------------------------------------- SEKMELER */
+
+/* Telefonda sekmeler alt alta sarmak yerine yana kayar: içerik hep
+   ekranın aynı yerinden başlasın. */
+.uzak-rapor .rapor-sekmeler {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    margin: 12px 0 0;
+    padding: 0 16px 10px;
+    -webkit-overflow-scrolling: touch;
+}
+
+.uzak-rapor .rapor-sekmeler::-webkit-scrollbar {
+    display: none;
+}
+
+.uzak-rapor .rapor-sekme {
+    flex: 0 0 auto;
+}
+
+/* --------------------------------------------------------- İÇERİK */
+
+.uzak-rapor #icerik {
+    padding: 16px;
+}
+
+.uzak-rapor .table-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.uzak-rapor .durum {
+    padding: 40px 16px;
+    text-align: center;
+    color: var(--text-dim);
+}
+
+@media (max-width: 560px) {
+    .uzak-rapor .card {
+        padding: 16px 14px;
+    }
+
+    .uzak-rapor .stat .value {
+        font-size: 22px;
+    }
+
+    /* Künye kutuları dar ekranda ikişerli sığsın; 220px'lik asgari genişlik
+       telefonda tek sütuna düşürüp sayfayı gereksiz uzatıyordu. */
+    .uzak-rapor .grid-auto {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 10px;
+    }
+}

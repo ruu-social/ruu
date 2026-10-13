@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#0D0F14" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Raporlar" />
+    <title>Ruu — Raporlar</title>
+    <link rel="stylesheet" href="rapor.css" />
+    <link rel="stylesheet" href="uzak.css" />
+</head>
+<body class="uzak-rapor">
+
+<div id="giris" class="uzak-giris">
+    <div class="kutu">
+        <div class="logo">🔒</div>
+        <h1>Ruu</h1>
+        <p class="muted">Raporları görmek için parolanı gir.</p>
+
+        <form id="giris-form" autocomplete="on">
+            <input type="password" id="parola" name="password" inputmode="text"
+                   autocomplete="current-password" placeholder="parola" spellcheck="false" />
+            <button type="submit" class="btn btn-primary" id="giris-dugme">Aç</button>
+        </form>
+
+        <div id="giris-hata" class="note danger" hidden></div>
+        <p class="faint text-sm">Parola bu cihazda saklanır, bir daha sorulmaz.</p>
+    </div>
+</div>
+
+<div id="uygulama" hidden>
+    <header class="uzak-baslik">
+        <div>
+            <div class="ad" id="isletme"></div>
+            <div class="faint text-sm" id="tazelik"></div>
+        </div>
+        <button class="btn btn-sm btn-ghost" id="cikis" title="Bu cihazdan çık">Çıkış</button>
+    </header>
+
+    <div class="uzak-donem">
+        <div class="tarih-secici" id="donemler"></div>
+
+        <div id="ay-panel" hidden>
+            <select id="ay"></select>
+        </div>
+
+        <div id="gun-panel" hidden>
+            <select id="gun"></select>
+        </div>
+
+        <div class="faint text-sm" id="aralik"></div>
+    </div>
+
+    <div class="rapor-sekmeler" id="sekmeler"></div>
+
+    <div class="page-wrap" id="icerik"></div>
+</div>
+
+<script src="uzak.js"></script>
+</body>
+</html>
